@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters>
-  <parameter name="IIS Web Application Name" description="" value="employ-manager-demo2" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\crist\\OneDrive\\Documentos\\Developments\\SDBP22-2-JCristianFlorez-N01793380\\EmployeeManager\.API\\obj\\Release\\net10\.0\\PubTmp\\Out\\$" />
-  </parameter>
-</parameters>
