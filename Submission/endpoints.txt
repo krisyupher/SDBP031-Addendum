@@ -1,0 +1,2 @@
+https://employee-manager-weba-g0gscffbezdnh2dv.centralus-01.azurewebsites.net/api/employees
+https://employee-manager-weba-g0gscffbezdnh2dv.centralus-01.azurewebsites.net/api/employees/1
