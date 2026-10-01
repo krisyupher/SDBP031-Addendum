@@ -1,0 +1,247 @@
+{
+  "info": {
+    "_postman_id": "feceb41e-18e8-40ea-861e-2be3b01e9743",
+    "name": "SDBP22-2-JCristianFlorez-N01793380",
+    "description": "Covers the four CRUD endpoints and all five business rules (BR-01 to BR-05) for /api/assignment. Run top to bottom - later requests depend on ids captured from earlier ones.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "9170131"
+  },
+  "item": [
+    {
+      "name": "POST - Create valid assignment (expect 201)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+              "pm.test('Status is Scheduled', () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body.status).to.eql('Scheduled');",
+              "    pm.collectionVariables.set('assignmentId', body.assignmentId);",
+              "});",
+              "pm.test('Location header present', () => pm.response.headers.has('Location'));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employeeId\": 1,\n  \"departmentId\": 7,\n  \"assignmentDate\": \"2026-08-25T00:00:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/assignment",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "assignment"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - existing assignment (expect 200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/assignment/{{assignmentId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "assignment",
+            "{{assignmentId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Scheduled to Active (expect 200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Status is now Active', () => pm.expect(pm.response.json().status).to.eql('Active'));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"assignmentDate\": \"2026-08-25T00:00:00Z\",\n  \"status\": \"Active\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/assignment/{{assignmentId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "assignment",
+            "{{assignmentId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - second assignment, same employee",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+              "pm.collectionVariables.set('secondAssignmentId', pm.response.json().assignmentId);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"employeeId\": 1,\n  \"departmentId\": 8,\n  \"assignmentDate\": \"2026-08-26T00:00:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/assignment",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "assignment"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Active to Completed (expect 200)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"assignmentDate\": \"2026-08-25T00:00:00Z\",\n  \"status\": \"Completed\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/assignment/{{assignmentId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "assignment",
+            "{{assignmentId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE - existing assignment (expect 204)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 204', () => pm.response.to.have.status(204));"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/assignment/{{secondAssignmentId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "assignment",
+            "{{secondAssignmentId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5092"
+    },
+    {
+      "key": "assignmentId",
+      "value": ""
+    },
+    {
+      "key": "secondAssignmentId",
+      "value": ""
+    }
+  ]
+}
